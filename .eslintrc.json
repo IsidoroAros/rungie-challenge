@@ -17,5 +17,12 @@
     "rules": {
         "react/jsx-filename-extension": [1, {
         "extensions": [".jsx"]}
-    ]}
+    ],
+    "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ]
+    }
 }

@@ -1,0 +1,40 @@
+  // const handleDragEnd = (e) => {
+  // e.preventDefault();
+  // console.log("End:", e.target);
+  // };
+
+  // const handleOnMouseDown = (e) => {
+  //   startPressTimer();
+  //   if (isEditMode) {
+  //     setIsTileHovered(true);
+  //   }
+  // };
+
+  // const handleOnMouseUp = () => {
+  //   clearTimeout(timerRef.current);
+  // };
+
+  // Starts the timer for the tile
+  // const startPressTimer = () => {
+  //   isLongPress.current = false;
+  //   timerRef.current = setTimeout(() => {
+  //     isLongPress.current = true;
+  //     setCurrentAction("longpress");
+  //   }, 1000);
+  // };
+
+//--------------- Eventos componente
+
+     // onMouseDown={(e) => handleOnMouseDown(e)}
+      // onMouseUp={handleOnMouseUp}
+
+//--------------- Estilos Styled components
+
+  background-color: ${({ flippedColor }) =>
+    flippedColor ? "red !important" : "blue"};
+
+  transform: ${({ isTileHovered, requestColorChange }) =>
+    isTileHovered && !requestColorChange ? "scale(.9)" : "1"};
+
+  background-color: ${({ requestColorChange, isTileHovered }) =>
+    requestColorChange && isTileHovered && "green"};
