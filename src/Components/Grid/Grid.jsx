@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Tile from "../Tile/Tile";
+import { postSquares } from "../../Services/Endpoint.service";
 
-function Grid({ gridRows, gridColumns }) {
+function Grid({ gridRows, gridColumns, setGridConfig }) {
   const [requestColorChange, setRequestColorChange] = useState(false);
   const [columnUpdater, setColumnUpdater] = useState();
   const [clickedColumn, setClickedColumn] = useState([]);
+
+  useEffect(() => {
+    if (requestColorChange) {
+      postSquares(clickedColumn);
+    }
+  }, [requestColorChange]);
 
   return (
     <>
@@ -26,9 +33,21 @@ function Grid({ gridRows, gridColumns }) {
         ))}
       </TileGrid>
       <ConfirmActionsContainer>
-        <ConfirmActions onClick={() => setRequestColorChange(false)}>
-          Reset
-        </ConfirmActions>
+        <button type="button" onClick={() => setRequestColorChange(false)}>
+          Reset values
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            setGridConfig({
+              rows: 5,
+              columns: 5,
+              isConfirmed: false,
+            })
+          }
+        >
+          New layout
+        </button>
       </ConfirmActionsContainer>
     </>
   );
@@ -65,21 +84,10 @@ const ConfirmActionsContainer = styled.span`
   }
 `;
 
-const ConfirmActions = styled.button`
-  width: 30%;
-  max-width: 200px;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  background: #fefdfc;
-  padding: 10px 20px;
-  cursor: pointer;
-`;
-
 Grid.propTypes = {
   gridRows: PropTypes.number,
   gridColumns: PropTypes.number,
+  setGridConfig: PropTypes.func.isRequired,
 };
 
 Grid.defaultProps = {

@@ -11,7 +11,7 @@ function Tile({
   columnUpdater,
   setColumnUpdater,
   gridSize,
-  clickedColumn,
+  clickedColumn: columnGroup,
   setClickedColumn,
 }) {
   const [currentAction, setCurrentAction] = useState("");
@@ -48,24 +48,22 @@ function Tile({
   const handleOnMouseDown = () => startPressTimer();
   const handleOnMouseUp = () => clearTimeout(timerRef.current);
 
-  const calculateColumns = () => {
+  const calculateColumnLayout = () => {
     const { columns, rows } = gridSize;
-    const arr = [];
-    arr.push(gridRef);
+    setClickedColumn([]);
+    setClickedColumn((clickedColumn) => [...clickedColumn, gridRef]);
     for (let i = 0; i < rows; i += 1) {
       const sumref = gridRef + columns * (i + 1);
       const subsref = gridRef - columns * (i + 1);
 
       if (sumref >= 0 && sumref <= columns * rows) {
-        arr.push(sumref);
-        setClickedColumn([...clickedColumn, sumref]);
+        if (gridRef === 0 && sumref === columns * rows) return;
+        setClickedColumn((clickedColumn) => [...clickedColumn, sumref]);
       }
       if (subsref >= 0 && subsref <= columns * rows) {
-        arr.push(subsref);
-        setClickedColumn([...clickedColumn, subsref]);
+        setClickedColumn((clickedColumn) => [...clickedColumn, subsref]);
       }
     }
-    // setClickedColumn(Array(arr));
   };
 
   const handleOnClick = () => {
@@ -105,8 +103,10 @@ function Tile({
 
   const handleDoubleClick = () => {
     setColumnUpdater(gridRef);
-    calculateColumns(gridSize);
-    console.log(typeof clickedColumn);
+    calculateColumnLayout(gridSize);
+    if (columnGroup.includes(gridRef)) {
+      // Add logic for painting tiles for double click column
+    }
   };
 
   return (
