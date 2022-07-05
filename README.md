@@ -1,7 +1,5 @@
 # Rungie Challenge
 
-![image](https://user-images.githubusercontent.com/60631478/177306631-2a0afb1b-0838-4dd0-9b1a-ff954bcab764.png)
-
 En este challenge se lleva a cabo el desafío propuesto por [Rungie.io](https://rungie.io/#projects) en la [siguiente consigna](https://docs.google.com/document/d/1fUR87Yw_Y22NT_rAiLLqFqJ3SFgpBydj3CDyuW1Q0FM/edit).
 Respecto al approach el desafío se plantea utilizando React JS a lo que decidí sumarle algunas librerías dadas algunas cuestiones:
 
@@ -21,5 +19,6 @@ Respecto al approach el desafío se plantea utilizando React JS a lo que decidí
 
 Para configurar el endpoint solo debe de ingresarse al archivo **.env** y cambiar el string que yace dentro de la constante **VITE_BASE_URL**. Disclaimer: El archivo .env debería formar parte del .gitignore, pero dadas las circunstancias del calibre del proyecto opté por dejarlo ahi para que el proyecto funcione sin mucha configuración.
 
+![image](https://user-images.githubusercontent.com/60631478/177306631-2a0afb1b-0838-4dd0-9b1a-ff954bcab764.png)
 
 
