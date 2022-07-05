@@ -124,10 +124,10 @@ function Tile({
       style={{
         background: `${
           tileLifecycle.init
-            ? "rgba(156,207,132,1)"
+            ? "linear-gradient(231deg, rgba(156,207,132,1) 0%, rgba(175,217,231,1) 100%)"
             : tileLifecycle.hover
             ? "linear-gradient(90deg, rgba(183,219,233,1) 0%, rgba(242,241,239,1) 100%)"
-            : "rgba(156,207,132,1)"
+            : "linear-gradient(231deg, rgba(156,207,132,1) 0%, rgba(175,217,231,1) 100%)"
         }`,
         transform: `${tileLifecycle.hover ? "scale(0.9)" : "scale(1)"}`,
       }}
