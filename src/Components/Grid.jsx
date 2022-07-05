@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Tile from "../Tile/Tile";
-import { postSquares } from "../../Services/Endpoint.service";
+import Tile from "./Tile";
+import { postSquares } from "../Services/Endpoint.service";
 
 function Grid({ gridRows, gridColumns, setGridConfig }) {
   const [requestColorChange, setRequestColorChange] = useState(false);
-  const [columnUpdater, setColumnUpdater] = useState();
   const [clickedColumn, setClickedColumn] = useState([]);
 
   useEffect(() => {
@@ -24,8 +23,6 @@ function Grid({ gridRows, gridColumns, setGridConfig }) {
             setRequestColorChange={setRequestColorChange}
             gridRef={index}
             key={`tile-${index + 1}`}
-            columnUpdater={columnUpdater}
-            setColumnUpdater={setColumnUpdater}
             gridSize={{ rows: gridRows, columns: gridColumns }}
             clickedColumn={clickedColumn}
             setClickedColumn={setClickedColumn}

@@ -1,7 +1,8 @@
+/* eslint-disable radix */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
 import styled from "styled-components";
-import Grid from "./Components/Grid/Grid";
+import Grid from "./Components/Grid";
 import "./Main.scss";
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
                   onChange={(e) =>
                     setGridConfig({
                       ...gridConfig,
-                      rows: e.target.value,
+                      rows: parseInt(e.target.value),
                     })
                   }
                 />
@@ -48,7 +49,7 @@ function App() {
                   onChange={(e) =>
                     setGridConfig({
                       ...gridConfig,
-                      columns: e.target.value,
+                      columns: parseInt(e.target.value),
                     })
                   }
                 />

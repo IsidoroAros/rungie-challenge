@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-shadow */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useRef, useEffect } from "react";
@@ -8,44 +9,35 @@ function Tile({
   requestColorChange,
   setRequestColorChange,
   gridRef,
-  columnUpdater,
-  setColumnUpdater,
   gridSize,
   clickedColumn,
   setClickedColumn,
 }) {
   const [currentAction, setCurrentAction] = useState("");
-  const [tileLifecycle, setTileLifecycle] = useState({
-    init: false,
-    hover: false,
-  });
+  const [tileHovered, setTileHovered] = useState(false);
   const timerRef = useRef();
   const isLongPress = useRef();
   const triggerTile = useRef();
 
+  // Whenever the user requests to set the colors on the board resets some states to zero
   useEffect(() => {
     if (!requestColorChange) {
-      setTileLifecycle({
-        init: true,
-        hover: false,
-      });
       setRequestColorChange(false);
       triggerTile.current = undefined;
-      setClickedColumn([]);
-      console.log("Reseteando");
+      setTileHovered(false);
     }
   }, [requestColorChange]);
 
+  // Whenever a tile is double clicked alters the column and returns it to initial state after a while
   useEffect(() => {
     if (clickedColumn.includes(gridRef)) {
-      setTileLifecycle({
-        init: false,
-        hover: true,
-      });
+      setTileHovered(true);
+      setTimeout(() => {
+        setTileHovered(false);
+        setClickedColumn([]);
+      }, 2000);
     }
-  }, []);
-
-  useEffect(() => {}, [columnUpdater]);
+  }, [clickedColumn]);
 
   // Starts the timer for the tile
   const startPressTimer = () => {
@@ -58,8 +50,10 @@ function Tile({
 
   const handleOnMouseDown = () => startPressTimer();
   const handleOnMouseUp = () => clearTimeout(timerRef.current);
+  const handleDoubleClick = () => calculateClickedColumns(gridSize);
 
-  const calculateColumnLayout = () => {
+  // Calculates the column position when doubleClick
+  const calculateClickedColumns = () => {
     const { columns, rows } = gridSize;
     setClickedColumn([]);
     setClickedColumn((clickedColumn) => [...clickedColumn, gridRef]);
@@ -77,51 +71,35 @@ function Tile({
     }
   };
 
+  // Handles color flip on regular click
   const handleOnClick = () => {
     if (isLongPress.current) return;
     setCurrentAction("click");
-    setTileLifecycle({
-      init: false,
-      hover: !tileLifecycle.hover,
-    });
+    setTileHovered(!tileHovered);
   };
 
+  // Handles when element starts drag action
   const handleDragStart = (e) => {
-    setTileLifecycle({
-      init: true,
-      hover: false,
-    });
     triggerTile.current = e.target;
   };
 
+  // Set color to the tile when drag is ocurring
   const handleDragOver = (e) => {
-    if (triggerTile.current !== e.target) {
-      setTileLifecycle({
-        init: false,
-        hover: true,
-      });
-    }
+    if (triggerTile.current !== e.target) setTileHovered(true);
   };
 
+  // Set color to genesis when drag is over
   const handleDragEnd = () => {
-    setTileLifecycle({
-      init: false,
-      trigger: false,
-      hover: true,
-    });
+    setTileHovered(true);
     setRequestColorChange(true);
     setCurrentAction("");
   };
 
-  const handleDoubleClick = () => {
-    setColumnUpdater(gridRef);
-    calculateColumnLayout(gridSize);
-  };
-
   return (
     <StyledTile
+      draggable
       currentAction={currentAction}
-      tileLifecycle={tileLifecycle}
+      tileLifecycle={tileHovered}
       requestColorChange={requestColorChange}
       onClick={handleOnClick}
       onMouseUp={handleOnMouseUp}
@@ -132,13 +110,11 @@ function Tile({
       onDoubleClick={handleDoubleClick}
       style={{
         background: `${
-          tileLifecycle.init
-            ? "linear-gradient(231deg, rgba(156,207,132,1) 0%, rgba(175,217,231,1) 100%)"
-            : tileLifecycle.hover
+          tileHovered
             ? "linear-gradient(90deg, rgba(183,219,233,1) 0%, rgba(242,241,239,1) 100%)"
             : "linear-gradient(231deg, rgba(156,207,132,1) 0%, rgba(175,217,231,1) 100%)"
         }`,
-        transform: `${tileLifecycle.hover ? "scale(0.9)" : "scale(1)"}`,
+        transform: `${tileHovered ? "scale(0.9)" : "scale(1)"}`,
       }}
     />
   );
@@ -157,15 +133,12 @@ Tile.propTypes = {
   requestColorChange: PropTypes.bool.isRequired,
   setRequestColorChange: PropTypes.func.isRequired,
   gridRef: PropTypes.number.isRequired,
-  setColumnUpdater: PropTypes.func.isRequired,
-  columnUpdater: PropTypes.number,
   gridSize: PropTypes.objectOf(PropTypes.number).isRequired,
   clickedColumn: PropTypes.arrayOf(PropTypes.number),
   setClickedColumn: PropTypes.func.isRequired,
 };
 
 Tile.defaultProps = {
-  columnUpdater: undefined,
   clickedColumn: [],
 };
 
