@@ -19,6 +19,5 @@ Respecto al approach el desafío se plantea utilizando React JS a lo que decidí
 
 Para configurar el endpoint solo debe de ingresarse al archivo **.env** y cambiar el string que yace dentro de la constante **VITE_BASE_URL**. Disclaimer: El archivo .env debería formar parte del .gitignore, pero dadas las circunstancias del calibre del proyecto opté por dejarlo ahi para que el proyecto funcione sin mucha configuración.
 
-![image](https://user-images.githubusercontent.com/60631478/177306631-2a0afb1b-0838-4dd0-9b1a-ff954bcab764.png)
-
+![image](https://user-images.githubusercontent.com/60631478/177321207-1a2713f6-10f0-42d9-bc77-c3a0c656826c.png)
 
