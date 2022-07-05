@@ -11,7 +11,7 @@ function Tile({
   columnUpdater,
   setColumnUpdater,
   gridSize,
-  clickedColumn: columnGroup,
+  clickedColumn,
   setClickedColumn,
 }) {
   const [currentAction, setCurrentAction] = useState("");
@@ -31,8 +31,19 @@ function Tile({
       });
       setRequestColorChange(false);
       triggerTile.current = undefined;
+      setClickedColumn([]);
+      console.log("Reseteando");
     }
   }, [requestColorChange]);
+
+  useEffect(() => {
+    if (clickedColumn.includes(gridRef)) {
+      setTileLifecycle({
+        init: false,
+        hover: true,
+      });
+    }
+  }, []);
 
   useEffect(() => {}, [columnUpdater]);
 
@@ -83,15 +94,16 @@ function Tile({
     triggerTile.current = e.target;
   };
 
-  const handleDragOver = () => {
-    setTileLifecycle({
-      init: false,
-      hover: true,
-    });
+  const handleDragOver = (e) => {
+    if (triggerTile.current !== e.target) {
+      setTileLifecycle({
+        init: false,
+        hover: true,
+      });
+    }
   };
 
-  const handleDragEnd = (e) => {
-    e.stopPropagation();
+  const handleDragEnd = () => {
     setTileLifecycle({
       init: false,
       trigger: false,
@@ -104,9 +116,6 @@ function Tile({
   const handleDoubleClick = () => {
     setColumnUpdater(gridRef);
     calculateColumnLayout(gridSize);
-    if (columnGroup.includes(gridRef)) {
-      // Add logic for painting tiles for double click column
-    }
   };
 
   return (
