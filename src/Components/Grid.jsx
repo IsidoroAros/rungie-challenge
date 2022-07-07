@@ -9,7 +9,7 @@ function Grid({ gridRows, gridColumns, setGridConfig }) {
   const [clickedColumn, setClickedColumn] = useState([]);
 
   useEffect(() => {
-    if (requestColorChange && !clickedColumn.length) postSquares(clickedColumn);
+    if (requestColorChange) postSquares(clickedColumn);
   }, [requestColorChange]);
 
   return (
