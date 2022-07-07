@@ -9,9 +9,7 @@ function Grid({ gridRows, gridColumns, setGridConfig }) {
   const [clickedColumn, setClickedColumn] = useState([]);
 
   useEffect(() => {
-    if (requestColorChange) {
-      postSquares(clickedColumn);
-    }
+    if (requestColorChange && !clickedColumn.length) postSquares(clickedColumn);
   }, [requestColorChange]);
 
   return (
@@ -30,7 +28,13 @@ function Grid({ gridRows, gridColumns, setGridConfig }) {
         ))}
       </TileGrid>
       <ConfirmActionsContainer>
-        <button type="button" onClick={() => setRequestColorChange(false)}>
+        <button
+          type="button"
+          onClick={() => {
+            setClickedColumn([]);
+            setRequestColorChange(false);
+          }}
+        >
           Reset values
         </button>
         <button
@@ -67,18 +71,6 @@ const ConfirmActionsContainer = styled.span`
   align-items: center;
   justify-content: center;
   padding: 20px;
-
-  > span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    border: 2px solid red;
-  }
-
-  span:first-child {
-    margin-right: 8px;
-  }
 `;
 
 Grid.propTypes = {

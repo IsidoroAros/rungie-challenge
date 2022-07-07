@@ -30,14 +30,15 @@ function Tile({
 
   // Whenever a tile is double clicked alters the column and returns it to initial state after a while
   useEffect(() => {
-    if (clickedColumn.includes(gridRef)) {
-      setTileHovered(true);
-      setTimeout(() => {
-        setTileHovered(false);
-        setClickedColumn([]);
-      }, 2000);
-    }
+    if (clickedColumn.includes(gridRef)) setTileHovered(true);
   }, [clickedColumn]);
+
+  const handleOnMouseDown = () => startPressTimer();
+  const handleOnMouseUp = () => clearTimeout(timerRef.current);
+  const handleDoubleClick = () => {
+    calculateClickedColumns();
+    setRequestColorChange(true);
+  };
 
   // Starts the timer for the tile
   const startPressTimer = () => {
@@ -47,10 +48,6 @@ function Tile({
       setCurrentAction("longpress");
     }, 1000);
   };
-
-  const handleOnMouseDown = () => startPressTimer();
-  const handleOnMouseUp = () => clearTimeout(timerRef.current);
-  const handleDoubleClick = () => calculateClickedColumns(gridSize);
 
   // Calculates the column position when doubleClick
   const calculateClickedColumns = () => {
