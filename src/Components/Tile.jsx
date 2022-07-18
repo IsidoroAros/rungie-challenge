@@ -105,14 +105,7 @@ function Tile({
       onDragOver={(e) => handleDragOver(e)}
       onDragEnd={(e) => handleDragEnd(e)}
       onDoubleClick={handleDoubleClick}
-      style={{
-        background: `${
-          tileHovered
-            ? "linear-gradient(90deg, rgba(183,219,233,1) 0%, rgba(242,241,239,1) 100%)"
-            : "linear-gradient(231deg, rgba(156,207,132,1) 0%, rgba(175,217,231,1) 100%)"
-        }`,
-        transform: `${tileHovered ? "scale(0.9)" : "scale(1)"}`,
-      }}
+      tileHovered={tileHovered}
     />
   );
 }
@@ -124,6 +117,11 @@ const StyledTile = styled.div`
   border-radius: 5px;
   transition: 0.2s ease-in-out;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  background: ${({ tileHovered }) =>
+    tileHovered
+      ? "linear-gradient(90deg, rgba(183,219,233,1) 0%, rgba(242,241,239,1) 100%)"
+      : "linear-gradient(231deg, rgba(156,207,132,1) 0%, rgba(175,217,231,1) 100%)"};
+  transform: ${({ tileHovered }) => (tileHovered ? "scale(0.9)" : "scale(1)")};
 `;
 
 Tile.propTypes = {

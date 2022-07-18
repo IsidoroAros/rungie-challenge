@@ -12,6 +12,19 @@ function Grid({ gridRows, gridColumns, setGridConfig }) {
     if (requestColorChange) postSquares(clickedColumn);
   }, [requestColorChange]);
 
+  const handleValueReset = () => {
+    setClickedColumn([]);
+    setRequestColorChange(false);
+  };
+
+  const handleNewLayout = () => {
+    setGridConfig({
+      rows: 5,
+      columns: 5,
+      isConfirmed: false,
+    });
+  };
+
   return (
     <>
       <TileGrid gridColumns={gridColumns} gridRows={gridRows}>
@@ -28,25 +41,10 @@ function Grid({ gridRows, gridColumns, setGridConfig }) {
         ))}
       </TileGrid>
       <ConfirmActionsContainer>
-        <button
-          type="button"
-          onClick={() => {
-            setClickedColumn([]);
-            setRequestColorChange(false);
-          }}
-        >
+        <button type="button" onClick={handleValueReset}>
           Reset values
         </button>
-        <button
-          type="button"
-          onClick={() =>
-            setGridConfig({
-              rows: 5,
-              columns: 5,
-              isConfirmed: false,
-            })
-          }
-        >
+        <button type="button" onClick={handleNewLayout}>
           New layout
         </button>
       </ConfirmActionsContainer>
